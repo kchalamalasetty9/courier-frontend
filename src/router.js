@@ -10,8 +10,18 @@ const router = createRouter({
     },
     {
       path: "/",
-      name: "couriers",
-      component: () => import("./views/CouriersView.vue"),
+      name: "admin",
+      component: () => import("./views/admin/AdminHomePage.vue"),
+    },
+    {
+      path: "/",
+      name: "courier",
+      component: () => import("./views/courier/CourierHomePage.vue"),
+    },
+    {
+      path: "/",
+      name: "clerk",
+      component: () => import("./views/clerk/ClerkHomePage.vue"),
     },
   ],
 });
