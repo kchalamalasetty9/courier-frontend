@@ -20,7 +20,8 @@ const user = ref({
 
 onMounted(async () => {
   if (localStorage.getItem("user") !== null) {
-    router.push({ name: "courier" });
+    console.log(JSON.parse(localStorage.getItem("user")).userType)
+    router.push({ name:  JSON.parse(localStorage.getItem("user")).userType});
   }
 });
 
@@ -48,7 +49,23 @@ async function login() {
       snackbar.value.value = true;
       snackbar.value.color = "green";
       snackbar.value.text = "Login successful!";
-      router.push({ name: "courier" });
+      switch (data.data.userType) {
+        case "admin":
+          router.push({ name: "admin" });
+          break;
+
+        case "courier":
+          router.push({ name: "courier" });
+          break;
+
+        case "clerk":
+          router.push({ name: "clerk" });
+          break;
+      
+        default:
+          console.log(userType);
+          break;
+      }
     })
     .catch((error) => {
       console.log(error);
@@ -85,6 +102,7 @@ function closeSnackBar() {
 
           <v-text-field
             v-model="user.password"
+            :type="'password'"
             label="Password"
             required
           ></v-text-field>
@@ -123,9 +141,15 @@ function closeSnackBar() {
 
             <v-text-field
               v-model="user.password"
+              :type="'password'"
               label="Password"
               required
             ></v-text-field>
+            <v-select
+              v-model="user.userType"
+              label="UserType"
+              :items="['admin', 'clerk', 'courier']"
+            ></v-select>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
