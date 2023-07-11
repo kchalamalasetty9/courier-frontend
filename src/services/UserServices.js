@@ -1,11 +1,11 @@
 import apiClient from "./services";
 
 export default {
-  getUser() {
-    return apiClient.get("users");
+  getUsers() {
+    return apiClient.get("user-registrations");
   },
   addUser(user) {
-    return apiClient.post("users", user);
+    return apiClient.post("user-registrations", user);
   },
   loginUser(user) {
     console.log(user);
