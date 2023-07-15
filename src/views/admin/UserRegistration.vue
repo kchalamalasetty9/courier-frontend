@@ -48,7 +48,6 @@
 </template>
 <script>
 import AdminServices from '../../services/AdminServices';
-import UserServices from '../../services/UserServices';
 export default {
   data() {
     return {
@@ -56,17 +55,15 @@ export default {
       onAccept(userId) {
         AdminServices.acceptUserRegistration(userId);
         this.users = this.users.filter(x => x.id !== userId);
-        console.log("onAccept Called", userId)
       },
       onDecline(userId) {
         AdminServices.declineUserRegistration(userId);
         this.users = this.users.filter(x => x.id !== userId);
-        console.log("onDecline Called", userId)
       },
     }
   },
   async created() {
-    await UserServices.getUsers().then(data => {
+    await AdminServices.getUsers().then(data => {
       this.users = data.data
     })
   },

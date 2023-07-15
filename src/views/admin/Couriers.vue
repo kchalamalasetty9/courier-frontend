@@ -8,9 +8,6 @@
         <th class="text-left">
           Courier Name
         </th>
-        <th class="text-left">
-          userId
-        </th>
         <th class="text-center">
           Action
         </th>
@@ -20,7 +17,6 @@
       <tr v-for="courier in couriers" :key="courier.courierNumber">
         <td>{{ courier.courierNumber }}</td>
         <td>{{ courier.courierName }}</td>
-        <td>{{ courier.userId }}</td>
         <td>
           <div class="text-center">
             <v-btn class="ma-2" color="red" @click="this.onDelete(user.id)">
