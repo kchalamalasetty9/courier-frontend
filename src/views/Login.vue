@@ -148,7 +148,7 @@ function closeSnackBar() {
             <v-select
               v-model="user.userType"
               label="UserType"
-              :items="['clerk', 'courier']"
+              :items="['courier']"
             ></v-select>
           </v-card-text>
           <v-card-actions>

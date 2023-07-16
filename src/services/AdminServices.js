@@ -4,16 +4,16 @@ export default {
   getCouriers() {
     return apiClient.get("couriers");
   },
-  getClerks() {
-    return apiClient.get("clerks");
-  },
   getTickets() {
     return apiClient.get("tickets");
   },
   acceptUserRegistration(userId) {
-    return apiClient.put(`user-registrations/${userId}/accept`)
+    return apiClient.put(`users/${userId}/accept`)
   },
   declineUserRegistration(userId){
-    return apiClient.put(`user-registrations/${userId}/decline`)
-  }
+    return apiClient.put(`users/${userId}/decline`)
+  },
+  getUsers() {
+    return apiClient.get("/users/pending");
+  },
 };

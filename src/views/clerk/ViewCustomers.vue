@@ -80,7 +80,7 @@ export default {
     },
     async createCustomer() {
       console.log(this.customer)
-      ClerkService.createCustomer(this.customer);
+      await ClerkService.createCustomer(this.customer);
       await ClerkService.getCustomers().then(data => {
         this.customers = data.data
       })
