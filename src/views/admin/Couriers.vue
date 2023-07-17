@@ -19,7 +19,7 @@
         <td>{{ courier.courierName }}</td>
         <td>
           <div class="text-center">
-            <v-btn class="ma-2" color="red" @click="this.onDelete(user.id)">
+            <v-btn class="ma-2" color="red" @click="this.onDelete(courier.courierNumber)">
               Delete
               <v-icon end icon="mdi-cancel"></v-icon>
             </v-btn>
@@ -44,8 +44,12 @@ export default {
     })
   },
   methods: {
-    onDelete: (userId) => {
+    async onDelete(userId) {
       console.log("onDelete Called", userId)
+      await AdminServices.deleteCourierById(userId);
+      await AdminServices.getCouriers().then(data => {
+      this.couriers = data.data
+    })
     },
   },
 }

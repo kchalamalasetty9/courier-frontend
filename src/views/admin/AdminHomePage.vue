@@ -3,12 +3,13 @@
 import UserRegistrationScreen from './UserRegistration.vue';
 import Couriers from './Couriers.vue';
 import Tickets from './Tickets.vue';
+import CompanyInfo from './CompanyInfo.vue';
 
 export default {
     data: () => ({
         tab: null,
     }),
-    components: { UserRegistrationScreen, Couriers, Tickets }
+    components: { UserRegistrationScreen, Couriers, Tickets, CompanyInfo }
 }
 </script>
 <template>
@@ -21,6 +22,7 @@ export default {
         <v-tab value="one">User Registrations</v-tab>
         <v-tab value="two">Tickets</v-tab>
         <v-tab value="three">Couriers</v-tab>
+        <v-tab value="four">Company Info</v-tab>
       </v-tabs>
   
       <v-card-text>
@@ -34,6 +36,9 @@ export default {
           </v-window-item>
           <v-window-item value="three">
             <Couriers />
+          </v-window-item>
+          <v-window-item value="four">
+            <CompanyInfo />
           </v-window-item>
         </v-window>
       </v-card-text>
