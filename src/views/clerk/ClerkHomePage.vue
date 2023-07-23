@@ -2,12 +2,12 @@
 
 import AddTicket from './AddTicket.vue';
 
-import ViewCustomers from './ViewCustomers.vue';
+import Customers from './Customers.vue';
 export default {
     data: () => ({
         tab: null,
     }),
-    components: { AddTicket, ViewCustomers, }
+    components: { AddTicket, Customers, }
 }
 </script>
 <template>
@@ -28,10 +28,7 @@ export default {
           </v-window-item>
   
           <v-window-item value="two">
-            <ViewCustomers />
-          </v-window-item>
-          <v-window-item value="four">
-            <Clerks />
+            <Customers />
           </v-window-item>
         </v-window>
       </v-card-text>

@@ -145,6 +145,7 @@ export default {
         this.openEditUser()
       },
       openAddUser() {
+        this.user = {};
         this.isAddUserOpen = true;
       },
       closeAddUser() {

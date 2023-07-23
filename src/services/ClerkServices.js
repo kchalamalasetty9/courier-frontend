@@ -10,4 +10,10 @@ export default {
   getCouriers() {
     return apiClient.get("couriers");
   },
+  editCustomer(customer){
+    return apiClient.put(`customers/${customer.customerNumber}`, customer);
+  },
+  deleteCustomer(customerId){
+    return apiClient.delete(`customers/${customerId}`);
+  }
 };
