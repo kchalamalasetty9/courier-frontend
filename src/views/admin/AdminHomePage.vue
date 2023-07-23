@@ -20,7 +20,7 @@ export default {
         bg-color="secondary"
       >
         <v-tab value="one">Users</v-tab>
-        <v-tab value="two">Tickets</v-tab>
+        <v-tab value="two">Orders</v-tab>
         <v-tab value="three">Couriers</v-tab>
         <v-tab value="four">Company Info</v-tab>
       </v-tabs>

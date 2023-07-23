@@ -31,4 +31,13 @@ export default {
   addUser(user) {
     return apiClient.post("users", user);
   },
+  addCompany(company){
+    return apiClient.post("companies", company);
+  },
+  editCompany(company){
+    return apiClient.put(`companies/${company.key}`, company)
+  },
+  deleteCompany(companyId){
+    return apiClient.delete(`companies/${companyId}`)
+  }
 };
