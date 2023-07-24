@@ -2,12 +2,13 @@
 
 import AddTicket from './AddTicket.vue';
 
+import Couriers from './Couriers.vue';
 import Customers from './Customers.vue';
 export default {
     data: () => ({
         tab: null,
     }),
-    components: { AddTicket, Customers, }
+    components: { AddTicket, Customers, Couriers }
 }
 </script>
 <template>
@@ -18,6 +19,7 @@ export default {
         bg-color="secondary"
       >
         <v-tab value="one">Add Ticket</v-tab>
+        <v-tab value="two">View Couriers</v-tab>
         <v-tab value="two">View Customers</v-tab>
       </v-tabs>
   
@@ -28,6 +30,9 @@ export default {
           </v-window-item>
   
           <v-window-item value="two">
+            <Couriers />
+          </v-window-item>
+          <v-window-item value="three">
             <Customers />
           </v-window-item>
         </v-window>

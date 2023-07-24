@@ -15,5 +15,8 @@ export default {
   },
   deleteCustomer(customerId){
     return apiClient.delete(`customers/${customerId}`);
-  }
+  },
+  getCouriers() {
+    return apiClient.get("couriers");
+  },
 };
