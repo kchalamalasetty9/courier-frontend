@@ -1,7 +1,6 @@
 <script>
 
 import Users from './Users.vue';
-import Couriers from './Couriers.vue';
 import Tickets from './Tickets.vue';
 import CompanyInfo from './CompanyInfo.vue';
 import Customers from '../clerk/Customers.vue';
@@ -10,7 +9,7 @@ export default {
     data: () => ({
         tab: null,
     }),
-    components: { Users, Couriers, Tickets, CompanyInfo, Customers }
+    components: { Users, Tickets, CompanyInfo, Customers }
 }
 </script>
 <template>
@@ -22,9 +21,8 @@ export default {
       >
         <v-tab value="one">Users</v-tab>
         <v-tab value="two">Orders</v-tab>
-        <v-tab value="three">Couriers</v-tab>
-        <v-tab value="four">Customers</v-tab>
-        <v-tab value="five">Company Info</v-tab>
+        <v-tab value="three">Customers</v-tab>
+        <v-tab value="four">Company Info</v-tab>
       </v-tabs>
   
       <v-card-text>
@@ -36,13 +34,11 @@ export default {
           <v-window-item value="two">
             <Tickets />
           </v-window-item>
+
           <v-window-item value="three">
-            <Couriers />
-          </v-window-item>
-          <v-window-item value="four">
             <Customers />
           </v-window-item>
-          <v-window-item value="five">
+          <v-window-item value="four">
             <CompanyInfo />
           </v-window-item>
         </v-window>
