@@ -39,5 +39,8 @@ export default {
   },
   deleteCompany(companyId){
     return apiClient.delete(`companies/${companyId}`)
+  },
+  getMap(){
+    return apiClient.get('maps')
   }
 };
