@@ -4,12 +4,13 @@ import Users from './Users.vue';
 import Tickets from './Tickets.vue';
 import CompanyInfo from './CompanyInfo.vue';
 import Customers from '../clerk/Customers.vue';
+import Map from './Map.vue';
 
 export default {
     data: () => ({
         tab: null,
     }),
-    components: { Users, Tickets, CompanyInfo, Customers }
+    components: { Users, Tickets, CompanyInfo, Customers, Map }
 }
 </script>
 <template>
@@ -23,6 +24,7 @@ export default {
         <v-tab value="two">Orders</v-tab>
         <v-tab value="three">Customers</v-tab>
         <v-tab value="four">Company Info</v-tab>
+        <v-tab value="five">Map</v-tab>
       </v-tabs>
   
       <v-card-text>
@@ -40,6 +42,9 @@ export default {
           </v-window-item>
           <v-window-item value="four">
             <CompanyInfo />
+          </v-window-item>
+          <v-window-item value="five">
+            <Map />
           </v-window-item>
         </v-window>
       </v-card-text>
