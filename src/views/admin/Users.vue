@@ -110,7 +110,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn variant="flat" color="secondary" @click="closeEditUser()">Close</v-btn>
-          <v-btn variant="flat" color="primary" @click="editUser()">Edit</v-btn>
+          <v-btn variant="flat" color="primary" @click="editUser()">Update</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

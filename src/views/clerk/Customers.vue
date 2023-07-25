@@ -121,6 +121,7 @@ export default {
       await ClerkService.getCustomers().then(data => {
         this.customers = data.data
       })
+      this.customer = {};
       this.dialog = false;
     },
     clearFields() {

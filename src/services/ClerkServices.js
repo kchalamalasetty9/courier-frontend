@@ -19,4 +19,16 @@ export default {
   getCouriers() {
     return apiClient.get("couriers");
   },
+  createTicket(ticket) {
+    return apiClient.post("tickets", ticket);
+  },
+  getTickets() {
+    return apiClient.get("tickets");
+  },
+  deleteTicket(ticketId){
+    return apiClient.delete(`tickets/${ticketId}`);
+  },
+  editTicket(ticket){
+    return apiClient.put(`tickets/${ticket.ticketId}`, ticket);
+  }
 };

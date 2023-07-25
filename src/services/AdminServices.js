@@ -7,9 +7,6 @@ export default {
   deleteCourierById(id) {
     return apiClient.delete(`couriers/${id}`);
   },
-  getTickets() {
-    return apiClient.get("tickets");
-  },
   acceptUserRegistration(userId) {
     return apiClient.put(`users/${userId}/accept`)
   },
