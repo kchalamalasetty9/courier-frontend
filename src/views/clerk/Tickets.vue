@@ -27,9 +27,9 @@
       <tbody>
         <tr v-for="ticket in tickets" :key="ticket.ticketId">
           <td>{{ ticket?.ticketId }}</td>
-          <td>{{ ticket?.orderedByCustomer?.customerName  }}</td>
-          <td>{{ ticket?.orderedToCustomer?.customerName  }}</td>
-          <td>{{ ticket?.courier.courierName  }}</td>
+          <td>{{ ticket?.orderedByCustomer?.customerName }}</td>
+          <td>{{ ticket?.orderedToCustomer?.customerName }}</td>
+          <td>{{ ticket?.courier.courierName }}</td>
           <td>{{ formatReadableDate(ticket.requestedPickupTime) }}</td>
           <td>
             <div class="text-center">
@@ -139,8 +139,8 @@ export default {
       return formattedDate;
     },
     async editTicket() {
-      
-      await ClerkServices.editTicket({...this.ticket, orderedBy: this.ticket.orderedByCustomer.customerNumber,orderedTo: this.ticket.orderedToCustomer.customerNumber })
+
+      await ClerkServices.editTicket({ ...this.ticket, orderedBy: this.ticket.orderedBy.customerNumber, orderedTo: this.ticket.orderedTo.customerNumber, selectedCourier: this.ticket.selectedCourier.courierNumber })
       await ClerkServices.getTickets().then(data => {
         this.tickets = data.data
       })
