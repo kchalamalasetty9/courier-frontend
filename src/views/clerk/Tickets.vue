@@ -26,10 +26,10 @@
       </thead>
       <tbody>
         <tr v-for="ticket in tickets" :key="ticket.ticketId">
-          <td>{{ ticket.ticketId }}</td>
-          <td>{{ ticket.orderedByCustomer.customerName }}</td>
-          <td>{{ ticket.orderedToCustomer.customerName }}</td>
-          <td>{{ ticket.courier.courierName }}</td>
+          <td>{{ ticket?.ticketId }}</td>
+          <td>{{ ticket?.orderedByCustomer?.customerName  }}</td>
+          <td>{{ ticket?.orderedToCustomer?.customerName  }}</td>
+          <td>{{ ticket?.courier.courierName  }}</td>
           <td>{{ formatReadableDate(ticket.requestedPickupTime) }}</td>
           <td>
             <div class="text-center">
