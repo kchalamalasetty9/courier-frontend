@@ -15,15 +15,11 @@ export default {
         v-model="tab"
         bg-color="secondary"
       >
-        <v-tab value="one">View Tickets</v-tab>
+        <v-tab value="one">View Orders</v-tab>
       </v-tabs>
   
       <v-card-text>
-        <v-window v-model="tab">
-          <v-window-item value="one">
-            <ViewTickets />
-          </v-window-item>
-        </v-window>
+        <router-view />
       </v-card-text>
     </v-card>
   </template>
