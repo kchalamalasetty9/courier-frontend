@@ -30,5 +30,8 @@ export default {
   },
   editTicket(ticket){
     return apiClient.put(`tickets/${ticket.ticketId}`, ticket);
+  },
+  ticketEstimates(source, destination){
+    return apiClient.get(`getEstimates?sourceNode=${source}&destinationNode=${destination}`)
   }
 };
