@@ -12,16 +12,57 @@ const router = createRouter({
       path: "/admin",
       name: "admin",
       component: () => import("./views/admin/AdminHomePage.vue"),
+      children: [
+        { path: "/admin", component: () => import("./views/admin/Users.vue") },
+        { path: "/admin/users", component: () => import("./views/admin/Users.vue") },
+        {
+          path: "/admin/add-order",
+          component: () => import("./views/clerk/AddTicket.vue"),
+        },
+        {
+          path: "/admin/orders",
+          component: () => import("./views/clerk/Tickets.vue"),
+        },
+        {
+          path: "/admin/customers",
+          component: () => import("./views/clerk/Customers.vue"),
+        },
+        {
+          path: "/admin/company-info",
+          component: () => import("./views/admin/CompanyInfo.vue"),
+        },
+        { path: "/admin/map", component: () => import("./views/admin/Map.vue") },
+      ],
     },
     {
       path: "/courier",
       name: "courier",
       component: () => import("./views/courier/CourierHomePage.vue"),
+      
     },
     {
       path: "/clerk",
       name: "clerk",
       component: () => import("./views/clerk/ClerkHomePage.vue"),
+      children: [
+        {
+          path: "/clerk",
+          component: () => import("./views/clerk/AddTicket.vue"),
+        },
+        {
+          path: "/clerk/add-order",
+          component: () => import("./views/clerk/AddTicket.vue"),
+        },
+        {
+          path: "/clerk/orders",
+          component: () => import("./views/clerk/Tickets.vue"),
+        },
+        {
+          path: "/clerk/customers",
+          component: () => import("./views/clerk/Customers.vue"),
+        },
+        { path: "/clerk/couriers", component: () => import("./views/clerk/Couriers.vue"), },
+      ],
     },
   ],
 });

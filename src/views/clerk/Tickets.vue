@@ -26,10 +26,10 @@
       </thead>
       <tbody>
         <tr v-for="ticket in tickets" :key="ticket.ticketId">
-          <td>{{ ticket?.ticketId }}</td>
-          <td>{{ ticket?.orderedByCustomer?.customerName }}</td>
-          <td>{{ ticket?.orderedToCustomer?.customerName }}</td>
-          <td>{{ ticket?.courier.courierName }}</td>
+          <td>{{ ticket.ticketId }}</td>
+          <td>{{ ticket.orderedByCustomer.customerName }}</td>
+          <td>{{ ticket.orderedToCustomer.customerName }}</td>
+          <td>{{ ticket.courier.courierName }}</td>
           <td>{{ formatReadableDate(ticket.requestedPickupTime) }}</td>
           <td>
             <div class="text-center">
@@ -62,8 +62,6 @@
 
           <v-text-field label="Requested Pickup Time" type="datetime-local"
             v-model="ticket.requestedPickupTime"></v-text-field>
-
-          <v-btn type="submit" color="primary" class="mt-2">Create</v-btn>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -140,7 +138,7 @@ export default {
     },
     async editTicket() {
 
-      await ClerkServices.editTicket({ ...this.ticket, orderedBy: this.ticket.orderedBy.customerNumber, orderedTo: this.ticket.orderedTo.customerNumber, selectedCourier: this.ticket.selectedCourier.courierNumber })
+      await ClerkServices.editTicket({ ...this.ticket, orderedBy: this.ticket.orderedByCustomer.customerNumber, orderedTo: this.ticket.orderedToCustomer.customerNumber, selectedCourier: this.ticket.selectedCourier })
       await ClerkServices.getTickets().then(data => {
         this.tickets = data.data
       })
@@ -154,8 +152,9 @@ export default {
       this.isEditOpen = true
     },
     onEdit(ticket) {
-      const requestedPickupTime = ticket.requestedPickupTime?.slice(0, -1)
-      console.log(requestedPickupTime)
+      const rpt = new Date(ticket.requestedPickupTime)
+      rpt.setHours(rpt.getHours() - 5)
+      const requestedPickupTime = rpt.toISOString()?.slice(0, -1)
       this.ticket = { ...ticket, orderedBy: ticket.orderedByCustomer, orderedTo: ticket.orderedToCustomer, selectedCourier: ticket.courier, requestedPickupTime },
         this.openEdit()
     },

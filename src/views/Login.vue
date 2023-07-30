@@ -51,15 +51,15 @@ async function login() {
       snackbar.value.text = "Login successful!";
       switch (data.data.userType) {
         case "admin":
-          router.push({ name: "admin" });
+          router.push({ path: "/admin" });
           break;
 
         case "courier":
-          router.push({ name: "courier" });
+          router.push({ path: "/courier" });
           break;
 
         case "clerk":
-          router.push({ name: "clerk" });
+          router.push({ path: "/clerk" });
           break;
       
         default:
