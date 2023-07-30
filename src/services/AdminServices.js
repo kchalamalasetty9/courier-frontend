@@ -39,5 +39,23 @@ export default {
   },
   getMap(){
     return apiClient.get('maps')
-  }
+  },
+  addVertex(vertex){
+    return apiClient.post('vertices', vertex);
+  },
+  addEdge(edge){
+    return apiClient.post('edges', edge);
+  },
+  deleteVertex(name){
+    return apiClient.delete(`vertices/${name}`)
+  },
+  deleteEdge(id){
+    return apiClient.delete(`edges/${id}`)
+  },
+  updateVertex(vertex){
+    return apiClient.put(`vertices/${vertex.name}`, vertex)
+  },
+  updateEdge(edge){
+    return apiClient.put(`edges/${edge.id}`, edge)
+  },
 };
