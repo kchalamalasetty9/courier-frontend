@@ -23,9 +23,9 @@
         <td>{{ ticket?.orderedToCustomer?.customerName }}</td>
         <td>
           <div class="text-center">
-            <v-btn class="ma-2" color="red" @click="this.onDelete(user.id)">
+            <v-btn class="ma-2" color="green" @click="this.onTake(ticket.ticketId)">
               Take
-              <v-icon end icon="mdi-cancel"></v-icon>
+              <v-icon end icon="mdi-arrow-expand-down"></v-icon>
             </v-btn>
           </div>
         </td>
@@ -48,8 +48,11 @@ export default {
     })
   },
   methods: {
-    onDelete: (userId) => {
-      console.log("onDelete Called", userId)
+    async onTake(orderId){
+      await CourierServices.takeOrder(orderId)
+      await CourierServices.getAvaliableTickets().then(data => {
+      this.tickets = data.data
+    })
     },
   },
 }
