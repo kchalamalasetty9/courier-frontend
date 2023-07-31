@@ -199,7 +199,6 @@ export default {
       if (sourceNode.length == 2 && destinationNode.length == 2) {
         const data = await ClerkServices.ticketEstimates(sourceNode, destinationNode)
         this.estimates = data.data;
-        // const companyInfo = await 
         // TODO: Get Estimates from Company Info
         const blockDistance = data.data.s.distance + data.data.o.distance + data.data.d.distance
         this.estimatedPrice = blockDistance * pricePerBlock;

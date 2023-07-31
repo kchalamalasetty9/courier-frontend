@@ -31,9 +31,9 @@
     <v-table>
       <thead>
         <tr>
-          <th class="text-left">
+          <!-- <th class="text-left">
             Customer Number
-          </th>
+          </th> -->
           <th class="text-left">
             Customer Name
           </th>
@@ -50,7 +50,7 @@
       </thead>
       <tbody>
         <tr v-for="customer in customers" :key="customer.customerNumber">
-          <td>{{ customer.customerNumber }}</td>
+          <!-- <td>{{ customer.customerNumber }}</td> -->
           <td>{{ customer.customerName }}</td>
           <td>{{ `${customer.avenue + getOrdinal(customer.avenue)} Avenue, ${customer.street + getOrdinal(customer.street)} Street` }}</td>
           <td>{{ customer.deliveryInstructions }}</td>

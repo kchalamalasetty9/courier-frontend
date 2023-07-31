@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <th class="text-left">
-          Ticket Id
+          Order Id
         </th>
         <th class="text-left">
           Ordered By
