@@ -2,10 +2,16 @@
   <div style="min-height: 500px;">
     <div class="text-h4 pa-2">Company Information
       <span style="float: right;">
-        <v-btn @click="this.openEdit()">
+        <v-btn color="blue" @click="this.onCompanyReport()">
+          Company Report
+          <v-icon end icon="mdi-open-in-app"></v-icon>
+        </v-btn>
+
+        <v-btn class="ml-5" @click="this.openEdit()">
           Edit
           <v-icon end icon="mdi-plus"></v-icon>
         </v-btn>
+
       </span>
     </div>
     <v-card class="ml-5">
@@ -43,16 +49,50 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog persistent v-model="isCompanyReportOpen" width="800">
+      <v-card class="rounded-lg elevation-5">
+        <v-card-title class="headline">Company Report</v-card-title>
+        <v-card-text class="pt-0">
+          <table id="company-report">
+            <tr>
+              <th class="text-left">Customer</th>
+              <th class="text-left">Num of Orders</th>
+              <th class="text-left">Total Billing</th>
+            </tr>
+            <tbody>
+              <tr v-for="entry in reportData" :key="entry.orderedBy">
+                <td>{{ entry.orderedBy }}</td>
+                <td>{{ entry.numTickets }}</td>
+                <td>$ {{ entry.totalBilling }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn variant="flat" color="secondary" @click="closeCompanyReport()">Close</v-btn>
+          <v-btn variant="flat" color="primary" @click="generateCompanyReportPDF()">
+            <v-icon icon="mdi-download"></v-icon>
+            <span>Download PDF</span>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
 import AdminServices from '../../services/AdminServices'
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
+const doc = new jsPDF()
 
 export default {
   data() {
     return {
       company: {},
       isEditOpen: false,
+      isCompanyReportOpen: false,
+      reportData: {}
     }
   },
   async created() {
@@ -83,7 +123,48 @@ export default {
     onEdit(company) {
       this.company = company,
         this.openEdit()
+    },
+    closeCompanyReport() {
+      this.isCompanyReportOpen = false
+    },
+    openCompanyReport() {
+      this.isCompanyReportOpen = true
+    },
+    async onCompanyReport() {
+      await AdminServices.getCompanyReport().then(data => {
+        this.reportData = data.data
+      })
+      this.openCompanyReport()
+    },
+    generateCompanyReportPDF() {
+      autoTable(doc, { html: '#company-report', useCss: true });
+      doc.text('Company Report', 10, 10)
+      doc.save('company-report.pdf')
     }
   },
 }
 </script>
+<style>
+#company-report {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#company-report td, #company-report th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#company-report tr:nth-child(even){background-color: #f2f2f2;}
+
+#company-report tr:hover {background-color: #ddd;}
+
+#company-report th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: rgb(83, 83, 255);
+  color: white;
+}
+</style>
