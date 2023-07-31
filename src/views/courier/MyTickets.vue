@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <th class="text-left">
-          Ticket Id
+          Order Id
         </th>
         <th class="text-left">
           Ordered By
@@ -20,11 +20,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="ticket in tickets" :key="ticket.ticketId">
+      <tr v-for="ticket in (filter ? tickets : filteredTickets(tickets))" :key="ticket.ticketId">
         <td>{{ ticket.ticketId }}</td>
         <td>{{ ticket?.orderedByCustomer?.customerName }}</td>
         <td>{{ ticket?.orderedToCustomer?.customerName }}</td>
-        <td>{{ readableStatus(ticket.status) }}</td>
+        <td style="text-transform: capitalize;">{{ readableStatus(ticket.status) }}</td>
         <td>
           <div class="text-center">
             <v-btn class="ma-2" color="blue" @click="this.view(ticket)">
@@ -36,6 +36,10 @@
       </tr>
     </tbody>
   </v-table>
+  <br>
+  <v-row>
+    <v-switch v-model="filter" :label="'Show Delivered / Cancelled'"></v-switch>
+  </v-row>
   <v-dialog persistent v-model="isViewOpen" width="1000">
     <v-card class="rounded-lg elevation-5">
       <v-card-title class="headline">Ticket Details</v-card-title>
@@ -144,12 +148,15 @@ export default {
         { value: 'pending', name: 'Pending' },
         { value: 'driver-left-facility', name: 'Left Facility' },
         { value: 'driver-picked-up-order', name: 'Picked Up Order' },
-        { value: 'delivered', name: 'Delivered' },]
+        { value: 'delivered', name: 'Delivered' },
+      ],
+      filter: false
     }
   },
   async created() {
     await CourierServices.getTickets().then(data => {
       this.tickets = data.data
+      console.log(this.tickets)
     })
   },
   methods: {
@@ -235,7 +242,12 @@ export default {
 
     },
     readableStatus(status) {
-      return this.orderStatus.filter(x => x.value === status)[0].name ?? ''
+      return this.orderStatus.filter(x => x.value === status)[0]?.name || status
+    },
+    filteredTickets(tickets) {
+      return tickets.filter(ticket => {
+        return ticket.status !== 'delivered' && ticket.status !== 'canceled';
+      });
     }
   },
 

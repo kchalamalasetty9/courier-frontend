@@ -33,5 +33,8 @@ export default {
   },
   ticketEstimates(source, destination){
     return apiClient.get(`getEstimates?sourceNode=${source}&destinationNode=${destination}`)
-  }
+  },
+  updateTicketStatus(ticket) { // only cancelled
+    return apiClient.put(`tickets/${ticket.ticketId}/update-status`, ticket);
+  },
 };
