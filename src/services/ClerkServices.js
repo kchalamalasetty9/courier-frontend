@@ -16,8 +16,8 @@ export default {
   deleteCustomer(customerId){
     return apiClient.delete(`customers/${customerId}`);
   },
-  getCouriers() {
-    return apiClient.get("couriers");
+  getAvailableCouriers() {
+    return apiClient.get("available-couriers");
   },
   createTicket(ticket) {
     return apiClient.post("tickets", ticket);

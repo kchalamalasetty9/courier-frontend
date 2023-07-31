@@ -55,7 +55,7 @@
       <v-text-field v-if="estimatedTimeToComplete" v-model="estimatedTimeToComplete" label="Estimated TimeToComplete"
         readonly suffix="minutes"></v-text-field>
       <v-select v-model="ticket.selectedCourier" :items="couriers" item-title="courierName" item-value="courierNumber"
-        label="Courier" return-object single-line></v-select>
+        label="Courier" return-object single-line no-data-text="No Custom Couriers available"></v-select>
 
       <v-text-field label="Requested Pickup Time" type="datetime-local"
         v-model="ticket.requestedPickupTime"></v-text-field>
@@ -99,7 +99,14 @@ export default {
       availableCouriers: [],
       estimates: {},
       estimatedPrice: null,
-      estimatedTimeToComplete: null
+      estimatedTimeToComplete: null,
+      requestedPickupLocation: null,
+      dropOffLocation: null,
+      distance: null,
+      routeToPickupFromOffice: null,
+      routeToDeliveryFromPickup: null,
+      routeToOfficeFromDelivery: null,
+      distances: {}
     };
   },
   async created() {
@@ -107,7 +114,7 @@ export default {
       this.customers = data.data
     })
     // get available Couriers
-    await ClerkServices.getCouriers().then(data => {
+    await ClerkServices.getAvailableCouriers().then(data => {
       this.couriers = data.data
     })
   },
@@ -116,7 +123,7 @@ export default {
       this.customers = data.data
     })
     // get available Couriers
-    await ClerkServices.getCouriers().then(data => {
+    await ClerkServices.getAvailableCouriers().then(data => {
       this.couriers = data.data
     })
   },
@@ -131,8 +138,22 @@ export default {
           return;
         }
 
-        try {
+        function addMinutesToISODate(isoDate, minutesToAdd) {
+          const date = new Date(isoDate);
+          date.setMinutes(date.getMinutes() + minutesToAdd);
+          return date.toISOString();
+        }
 
+        try {
+          this.ticket.quotedPrice = this.estimatedPrice;
+          this.ticket.estimatedDeliveryTime = addMinutesToISODate(this.ticket.requestedPickupTime, this.estimatedTimeToComplete)
+          this.ticket.estimatedPickupTime = addMinutesToISODate(this.ticket.requestedPickupTime, this.distances.o)
+          this.ticket.requestedPickupLocation = this.requestedPickupLocation
+          this.ticket.dropOffLocation = this.dropOffLocation
+          this.ticket.distance = this.distance
+          this.ticket.routeToDeliveryFromPickup = this.routeToDeliveryFromPickup
+          this.ticket.routeToOfficeFromDelivery = this.routeToOfficeFromDelivery
+          this.ticket.routeToPickupFromOffice = this.routeToPickupFromOffice
           await ClerkServices.createTicket(this.ticket);
           this.text = "Order Successful"
 
@@ -142,6 +163,10 @@ export default {
         this.snackbar = true
 
         this.ticket = {}
+        // get available Couriers
+        await ClerkServices.getAvailableCouriers().then(data => {
+          this.couriers = data.data
+        })
 
       }
 
@@ -179,6 +204,17 @@ export default {
         const blockDistance = data.data.s.distance + data.data.o.distance + data.data.d.distance
         this.estimatedPrice = blockDistance * pricePerBlock;
         this.estimatedTimeToComplete = blockDistance * timePerBlock;
+        this.requestedPickupLocation = `${ss} Street , ${sa}Avenue`
+        this.dropOffLocation = `${ds} Street , ${da}Avenue`
+        this.distance = blockDistance;
+        this.routeToPickupFromOffice = data.data.o.path.join(':')
+        this.routeToDeliveryFromPickup = data.data.s.path.join(':')
+        this.routeToOfficeFromDelivery = data.data.d.path.join(':')
+        this.distances = {
+          o: data.data.o.distance,
+          d: data.data.d.distance,
+          s: data.data.s.distance,
+        }
 
       } else {
         this.estimates = {}
