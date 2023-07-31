@@ -54,7 +54,47 @@
       <v-card class="rounded-lg elevation-5">
         <v-card-title class="headline mb-2">Edit Ticket</v-card-title>
         <v-card-text>
+          <v-row>
+          <v-col cols="6">
+            <v-card>
+              <v-card-title>Order Details</v-card-title>
+              <v-card-text>
+                <strong>Estimated Delivery Time:</strong> {{ formatReadableDate(ticket?.estimatedDeliveryTime) }}
+                <br>
+                <strong>Quoted Price:</strong> ${{ ticket?.quotedPrice }}
+                <br>
+                <strong>Requested Pickup Time:</strong> {{ formatReadableDate(ticket?.requestedPickupTime) }}
+                <br>
+                <strong>Requested Pickup Location:</strong> {{ ticket?.requestedPickupLocation }}
+                <br>
+                <strong>Drop-off Location:</strong> {{ ticket?.dropOffLocation }}
+                <br>
+                <strong>Distance:</strong> {{ ticket?.distance }} miles.
+                <br>
+                <strong>Status:</strong> {{ ticket?.status }}
+              </v-card-text>
+            </v-card>
+          </v-col>
 
+          <v-col cols="6">
+            <v-card>
+              <v-card-title>Time Details</v-card-title>
+              <v-card-text>
+                <strong>Estimated Start Time:</strong> {{ formatReadableDate(ticket?.estimatedStartTime) }}
+                <br>
+                <strong>Estimated Pickup Time:</strong> {{ formatReadableDate(ticket?.estimatedPickupTime) }}
+                <br>
+                <strong>Actual Start Time:</strong> {{ formatReadableDate(ticket?.actualStartTime) }}
+                <br>
+                <strong>Actual Pickup Time:</strong> {{ formatReadableDate(ticket?.actualPickupTime) }}
+                <br>
+                <strong>Actual Delivery Time:</strong> {{ formatReadableDate(ticket?.actualDeliveryTime) }}
+                <br>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+        <br>
           <v-select v-model="ticket.orderedBy" :items="customers" item-title="customerName" item-value="customerNumber"
             label="Ordered By" return-object single-line :disabled="ticket.isNewOrderBy"></v-select>
 

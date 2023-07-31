@@ -19,8 +19,8 @@
     <tbody>
       <tr v-for="ticket in tickets" :key="ticket.ticketId">
         <td>{{ ticket.ticketId }}</td>
-        <td>{{ ticket.orderedBy }}</td>
-        <td>{{ ticket.orderedTo }}</td>
+        <td>{{ ticket?.orderedByCustomer?.customerName }}</td>
+        <td>{{ ticket?.orderedToCustomer?.customerName }}</td>
         <td>
           <div class="text-center">
             <v-btn class="ma-2" color="red" @click="this.onDelete(user.id)">
