@@ -11,6 +11,9 @@
         <th class="text-left">
           Ordered to
         </th>
+        <th class="text-left">
+          Status
+        </th>
         <th class="text-center">
           Action
         </th>
@@ -19,8 +22,9 @@
     <tbody>
       <tr v-for="ticket in tickets" :key="ticket.ticketId">
         <td>{{ ticket.ticketId }}</td>
-        <td>{{ ticket.orderedBy }}</td>
-        <td>{{ ticket.orderedTo }}</td>
+        <td>{{ ticket?.orderedByCustomer?.customerName }}</td>
+        <td>{{ ticket?.orderedToCustomer?.customerName }}</td>
+        <td>{{ readableStatus(ticket.status) }}</td>
         <td>
           <div class="text-center">
             <v-btn class="ma-2" color="blue" @click="this.view(ticket)">
@@ -35,19 +39,16 @@
   <v-dialog persistent v-model="isViewOpen" width="1000">
     <v-card class="rounded-lg elevation-5">
       <v-card-title class="headline">Ticket Details</v-card-title>
+      <v-card-subtitle class="caption"><strong>Ticket ID:</strong> {{ ticket?.ticketId }}</v-card-subtitle>
       <v-card-text style="overflow-y: scroll">
         <v-row>
           <v-col cols="6">
             <v-card>
               <v-card-title>Order Details</v-card-title>
               <v-card-text>
-                <strong>Ticket ID:</strong> {{ ticket?.ticketId }}
-                <br>
                 <strong>Estimated Delivery Time:</strong> {{ formatReadableDate(ticket?.estimatedDeliveryTime) }}
                 <br>
-                <strong>Quoted Price:</strong> {{ ticket?.quotedPrice }}
-                <br>
-                <strong>Status:</strong> {{ ticket?.status }}
+                <strong>Quoted Price:</strong> ${{ ticket?.quotedPrice }}
                 <br>
                 <strong>Requested Pickup Time:</strong> {{ formatReadableDate(ticket?.requestedPickupTime) }}
                 <br>
@@ -55,7 +56,7 @@
                 <br>
                 <strong>Drop-off Location:</strong> {{ ticket?.dropOffLocation }}
                 <br>
-                <strong>Distance:</strong> {{ ticket?.distance }}
+                <strong>Distance:</strong> {{ ticket?.distance }} miles.
               </v-card-text>
             </v-card>
           </v-col>
@@ -73,10 +74,16 @@
                 <strong>Actual Pickup Time:</strong> {{ formatReadableDate(ticket?.actualPickupTime) }}
                 <br>
                 <strong>Actual Delivery Time:</strong> {{ formatReadableDate(ticket?.actualDeliveryTime) }}
+                <br>
               </v-card-text>
             </v-card>
           </v-col>
+          <v-col cols="12">
+            Change Status
+            <v-select v-model="ticket.status" label="Status" :items="orderStatus" item-title="name"
+              item-value="value"></v-select>
 
+          </v-col>
           <v-col cols="12">
             <v-card>
               <v-card-title>Route Details</v-card-title>
@@ -86,26 +93,26 @@
                     <strong class="mb-5">Route to Pickup from Office:</strong>
 
                     <!-- {{ ticket?.routeToPickupFromOffice }} -->
-                    <div class="ml-5" v-for="instruction in instructionListForRoute(ticket?.routeToPickupFromOffice)"
+                    <li v-for="instruction in instructionListForRoute(ticket?.routeToPickupFromOffice)"
                       :key="instruction">
-                      <pre>{{ instruction }}</pre>
-                    </div>
+                      {{ instruction }}
+                    </li>
                   </v-col>
-                  <v-col cols="4" style=" border-left: 1px #888 solid;">
+                  <v-col cols="4" style=" border-left: 1px lightgray solid;">
                     <strong class="mb-5">Route to Delivery from Pickup:</strong>
                     <!-- {{ ticket?.routeToDeliveryFromPickup }} -->
-                    <div class="ml-5" v-for="instruction in instructionListForRoute(ticket?.routeToDeliveryFromPickup)"
+                    <li v-for="instruction in instructionListForRoute(ticket?.routeToDeliveryFromPickup)"
                       :key="instruction">
-                      <pre>{{ instruction }}</pre>
-                    </div>
+                      {{ instruction }}
+                    </li>
                   </v-col>
-                  <v-col cols="4" style=" border-left: 1px #888 solid;">
+                  <v-col cols="4" style=" border-left: 1px lightgray solid;">
                     <strong class="mb-5">Route to Office from Delivery:</strong>
                     <!-- {{ ticket?.routeToOfficeFromDelivery }} -->
-                    <div class="ml-5" v-for="instruction in instructionListForRoute(ticket?.routeToOfficeFromDelivery)"
+                    <li v-for="instruction in instructionListForRoute(ticket?.routeToOfficeFromDelivery)"
                       :key="instruction">
-                      <pre>{{ instruction }}</pre>
-                    </div>
+                      {{ instruction }}
+                    </li>
                   </v-col>
                 </v-row>
 
@@ -132,7 +139,12 @@ export default {
     return {
       tickets: [],
       ticket: {},
-      isViewOpen: false
+      isViewOpen: false,
+      orderStatus: [
+        { value: 'pending', name: 'Pending' },
+        { value: 'driver-left-facility', name: 'Left Facility' },
+        { value: 'driver-picked-up-order', name: 'Picked Up Order' },
+        { value: 'delivered', name: 'Delivered' },]
     }
   },
   async created() {
@@ -149,7 +161,7 @@ export default {
       this.isViewOpen = false
     },
     async updateTicket() {
-      // update call
+      await CourierServices.updateTicketStatus(this.ticket)
       this.closeView()
       this.reloadTickets()
     },
@@ -171,7 +183,7 @@ export default {
         let direction = '';
 
         if (dx > 0) {
-          direction += 'EAST till ' + endX + ' Avenue';
+          direction += 'EAST Till ' + endX + ' Avenue';
         } else if (dx < 0) {
           direction += 'WEST till ' + endX + ' Avenue';
         }
@@ -222,6 +234,9 @@ export default {
       return ''
 
     },
+    readableStatus(status) {
+      return this.orderStatus.filter(x => x.value === status)[0].name ?? ''
+    }
   },
 
 }
