@@ -55,7 +55,7 @@
       <v-text-field v-if="estimatedTimeToComplete" v-model="estimatedTimeToComplete" label="Estimated TimeToComplete"
         readonly suffix="minutes"></v-text-field>
       <v-select v-model="ticket.selectedCourier" :items="couriers" item-title="courierName" item-value="courierNumber"
-        label="Courier" return-object single-line></v-select>
+        label="Courier" return-object single-line no-data-text="No Custom Couriers available"></v-select>
 
       <v-text-field label="Requested Pickup Time" type="datetime-local"
         v-model="ticket.requestedPickupTime"></v-text-field>
@@ -107,7 +107,7 @@ export default {
       this.customers = data.data
     })
     // get available Couriers
-    await ClerkServices.getCouriers().then(data => {
+    await ClerkServices.getAvailableCouriers().then(data => {
       this.couriers = data.data
     })
   },
@@ -116,7 +116,7 @@ export default {
       this.customers = data.data
     })
     // get available Couriers
-    await ClerkServices.getCouriers().then(data => {
+    await ClerkServices.getAvailableCouriers().then(data => {
       this.couriers = data.data
     })
   },
@@ -142,6 +142,10 @@ export default {
         this.snackbar = true
 
         this.ticket = {}
+        // get available Couriers
+        await ClerkServices.getAvailableCouriers().then(data => {
+          this.couriers = data.data
+        })
 
       }
 

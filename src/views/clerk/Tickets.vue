@@ -19,6 +19,9 @@
           <th class="text-left">
             Requested Pickup Time
           </th>
+          <th class="text-left">
+            Status
+          </th>
           <th class="text-center">
             Actions
           </th>
@@ -26,11 +29,12 @@
       </thead>
       <tbody>
         <tr v-for="ticket in tickets" :key="ticket.ticketId">
-          <td>{{ ticket.ticketId }}</td>
-          <td>{{ ticket.orderedByCustomer.customerName }}</td>
-          <td>{{ ticket.orderedToCustomer.customerName }}</td>
-          <td>{{ ticket.courier.courierName }}</td>
+          <td>{{ ticket?.ticketId }}</td>
+          <td>{{ ticket?.orderedByCustomer?.customerName }}</td>
+          <td>{{ ticket?.orderedToCustomer?.customerName }}</td>
+          <td>{{ ticket?.courier?.courierName }}</td>
           <td>{{ formatReadableDate(ticket.requestedPickupTime) }}</td>
+          <td style="text-transform: uppercase;font-weight: 600;">{{ ticket?.status }}</td>
           <td>
             <div class="text-center">
               <v-btn class="ma-2" color="grey" @click="this.onEdit(ticket)">
@@ -93,7 +97,7 @@ export default {
         this.customers = data.data
       })
     // get available Couriers
-    await ClerkServices.getCouriers().then(data => {
+    await ClerkServices.getAvailableCouriers().then(data => {
       this.couriers = data.data
     })
   },
@@ -106,7 +110,7 @@ export default {
       this.customers = data.data
     })
     // get available Couriers
-    await ClerkServices.getCouriers().then(data => {
+    await ClerkServices.getAvailableCouriers().then(data => {
       this.couriers = data.data
     })
   },
