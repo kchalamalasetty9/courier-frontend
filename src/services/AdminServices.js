@@ -32,7 +32,7 @@ export default {
     return apiClient.post("companies", company);
   },
   editCompany(company){
-    return apiClient.put(`companies/${company.key}`, company)
+    return apiClient.put(`companies/${company.id}`, company)
   },
   deleteCompany(companyId){
     return apiClient.delete(`companies/${companyId}`)
