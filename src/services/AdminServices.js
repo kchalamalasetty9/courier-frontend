@@ -58,4 +58,7 @@ export default {
   updateEdge(edge){
     return apiClient.put(`edges/${edge.id}`, edge)
   },
+  getCompanyReport(){
+    return apiClient.get('company-report')
+  }
 };
