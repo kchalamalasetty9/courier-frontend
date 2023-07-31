@@ -99,7 +99,14 @@ export default {
       availableCouriers: [],
       estimates: {},
       estimatedPrice: null,
-      estimatedTimeToComplete: null
+      estimatedTimeToComplete: null,
+      requestedPickupLocation: null,
+      dropOffLocation: null,
+      distance: null,
+      routeToPickupFromOffice: null,
+      routeToDeliveryFromPickup: null,
+      routeToOfficeFromDelivery: null,
+      distances: {}
     };
   },
   async created() {
@@ -131,8 +138,22 @@ export default {
           return;
         }
 
-        try {
+        function addMinutesToISODate(isoDate, minutesToAdd) {
+          const date = new Date(isoDate);
+          date.setMinutes(date.getMinutes() + minutesToAdd);
+          return date.toISOString();
+        }
 
+        try {
+          this.ticket.quotedPrice = this.estimatedPrice;
+          this.ticket.estimatedDeliveryTime = addMinutesToISODate(this.ticket.requestedPickupTime, this.estimatedTimeToComplete)
+          this.ticket.estimatedPickupTime = addMinutesToISODate(this.ticket.requestedPickupTime, this.distances.o)
+          this.ticket.requestedPickupLocation = this.requestedPickupLocation
+          this.ticket.dropOffLocation = this.dropOffLocation
+          this.ticket.distance = this.distance
+          this.ticket.routeToDeliveryFromPickup = this.routeToDeliveryFromPickup
+          this.ticket.routeToOfficeFromDelivery = this.routeToOfficeFromDelivery
+          this.ticket.routeToPickupFromOffice = this.routeToPickupFromOffice
           await ClerkServices.createTicket(this.ticket);
           this.text = "Order Successful"
 
@@ -183,6 +204,17 @@ export default {
         const blockDistance = data.data.s.distance + data.data.o.distance + data.data.d.distance
         this.estimatedPrice = blockDistance * pricePerBlock;
         this.estimatedTimeToComplete = blockDistance * timePerBlock;
+        this.requestedPickupLocation = `${ss} Street , ${sa}Avenue`
+        this.dropOffLocation = `${ds} Street , ${da}Avenue`
+        this.distance = blockDistance;
+        this.routeToPickupFromOffice = data.data.o.path.join(':')
+        this.routeToDeliveryFromPickup = data.data.s.path.join(':')
+        this.routeToOfficeFromDelivery = data.data.d.path.join(':')
+        this.distances = {
+          o: data.data.o.distance,
+          d: data.data.d.distance,
+          s: data.data.s.distance,
+        }
 
       } else {
         this.estimates = {}

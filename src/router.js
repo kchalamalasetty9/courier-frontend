@@ -38,6 +38,20 @@ const router = createRouter({
       path: "/courier",
       name: "courier",
       component: () => import("./views/courier/CourierHomePage.vue"),
+      children: [
+        {
+          path: "/courier/",
+          component: () => import("./views/courier/MyTickets.vue"),
+        },
+        {
+          path: "/courier/my-orders",
+          component: () => import("./views/courier/MyTickets.vue"),
+        },
+        {
+          path: "/courier/available-orders",
+          component: () => import("./views/courier/AvailableTickets.vue"),
+        },
+      ]
       
     },
     {
