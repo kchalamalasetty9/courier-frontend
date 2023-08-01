@@ -60,5 +60,8 @@ export default {
   },
   getCompanyReport(){
     return apiClient.get('company-report')
+  },
+  getCourierBonus(courierNumber){
+    return apiClient.get(`courier-bonuses/${courierNumber}`)
   }
 };
