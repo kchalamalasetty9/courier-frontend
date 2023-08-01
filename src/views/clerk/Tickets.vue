@@ -14,7 +14,7 @@
             Ordered to
           </th>
           <th class="text-left">
-            Courier Number
+            Courier Name
           </th>
           <th class="text-left">
             Requested Pickup Time

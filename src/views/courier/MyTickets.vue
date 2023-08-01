@@ -166,6 +166,7 @@ export default {
     },
     closeView() {
       this.isViewOpen = false
+      this.reloadTickets()
     },
     async updateTicket() {
       await CourierServices.updateTicketStatus(this.ticket)
