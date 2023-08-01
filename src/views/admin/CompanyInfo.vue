@@ -81,7 +81,6 @@
 import AdminServices from '../../services/AdminServices'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
-const doc = new jsPDF()
 
 export default {
   data() {
@@ -134,6 +133,7 @@ export default {
       this.openCompanyReport()
     },
     generateCompanyReportPDF() {
+      const doc = new jsPDF()
       autoTable(doc, { html: '#company-report', useCss: true });
       doc.text('Company Report', 10, 10)
       doc.save('company-report.pdf')
