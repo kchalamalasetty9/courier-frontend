@@ -15,9 +15,6 @@
       </span>
     </div>
     <v-card class="ml-5">
-      <v-card-title>
-        Company Information
-      </v-card-title>
       <v-card-text class="ml-5">
         <p><strong>Name:</strong> {{ company.name }}</p>
         <p><strong>Price per block:</strong> ${{ company.price_per_block }}</p>

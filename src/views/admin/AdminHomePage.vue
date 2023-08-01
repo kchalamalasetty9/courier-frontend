@@ -20,6 +20,7 @@ export default {
       <v-tab to="/admin/add-order">Add Order</v-tab>
       <v-tab to="/admin/orders">Orders</v-tab>
       <v-tab to="/admin/customers">Customers</v-tab>
+      <v-tab to="/admin/couriers">Couriers</v-tab>
       <v-tab to="/admin/company-info">Company Info</v-tab>
       <v-tab to="/admin/map">Map</v-tab>
     </v-tabs>
