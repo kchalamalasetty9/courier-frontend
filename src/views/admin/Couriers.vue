@@ -41,8 +41,8 @@
               <th class="text-left">Order Id</th>
               <th class="text-left">Order From</th>
               <th class="text-left">Order To</th>
-              <th class="text-left">Price</th>
               <th class="text-left">Did Receive Bonus?</th>
+              <th class="text-left">Price</th>
               <th class="text-left">Bonus</th>
             </tr>
             <tbody>
@@ -79,7 +79,7 @@
 import AdminServices from '../../services/AdminServices'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
-const doc = new jsPDF()
+
 
 export default {
   data() {
@@ -120,6 +120,7 @@ export default {
       this.isBonusReportOpen = false;
     },
     generateBonusReportPDF(){
+      const doc = new jsPDF()
       autoTable(doc, { html: '#bonus-report', useCss: true });
       doc.text(`${this.courier.courierName}'s Bonus Report:`, 10, 10)
       doc.save(`bonus-report-courier-${this.courier.courierName}.pdf`)

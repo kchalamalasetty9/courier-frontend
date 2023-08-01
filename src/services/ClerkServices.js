@@ -37,4 +37,7 @@ export default {
   updateTicketStatus(ticket) { // only cancelled
     return apiClient.put(`tickets/${ticket.ticketId}/update-status`, ticket);
   },
+  getCustomerInvoice(customerId){
+    return apiClient.get(`generate-invoices/${customerId}`)
+  }
 };
